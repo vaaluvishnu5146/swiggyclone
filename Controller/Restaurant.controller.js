@@ -7,9 +7,25 @@ const RestaurantModel = require("../Model/Restaurant.model");
  * OUTPUT = RESPONSE
  */
 router.get("/", (req, res, next) => {
-  return res.json({
-    message: "GET REQUEST SUCCESSFULL",
-  });
+  RestaurantModel.find()
+    .then((response) => {
+      if (response.length > 0) {
+        return res.status(200).json({
+          message: "Restaurant fetched successfully",
+          data: response,
+        });
+      } else {
+        return res.status(200).json({
+          message: "No restaurants found",
+          data: response,
+        });
+      }
+    })
+    .catch((error) => {
+      return res.status(201).json({
+        error: error,
+      });
+    });
 });
 
 /**
@@ -29,6 +45,7 @@ router.post("/", (req, res, next) => {
     cuisine = [],
     foodType = [],
   } = req.body;
+  console.log(req);
   const Restaurant = new RestaurantModel({
     name: name,
     category: category,
@@ -39,6 +56,9 @@ router.post("/", (req, res, next) => {
     cuisine: cuisine,
     foodType: foodType,
   });
+  /**
+   * SAVE - WILL CREATE A RECORD OF RESTAURANT IN DB
+   */
   Restaurant.save()
     .then((response) => {
       if (response._id) {
@@ -46,12 +66,17 @@ router.post("/", (req, res, next) => {
           data: response,
           message: "Restaurant added successfully!",
         });
+      } else {
+        return res.status(500).json({
+          message: "Error Occured!",
+        });
       }
     })
-    .catch((e) => console.log(e));
-  return res.json({
-    message: "POST REQUEST SUCCESSFULL",
-  });
+    .catch((e) =>
+      res.status(400).json({
+        error: e.message,
+      })
+    );
 });
 
 module.exports = router;

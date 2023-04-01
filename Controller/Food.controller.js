@@ -7,9 +7,25 @@ const FoodModel = require("../Model/Food.model");
  * OUTPUT = RESPONSE
  */
 router.get("/", (req, res, next) => {
-  return res.json({
-    message: "GET FOOD REQUEST SUCCESSFULL",
-  });
+  FoodModel.find()
+    .then((response) => {
+      if (response.length > 0) {
+        return res.status(200).json({
+          message: "Foods fetched successfully",
+          data: response,
+        });
+      } else {
+        return res.status(200).json({
+          message: "No Foods found",
+          data: response,
+        });
+      }
+    })
+    .catch((error) => {
+      return res.status(201).json({
+        error: error,
+      });
+    });
 });
 
 /**
