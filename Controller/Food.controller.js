@@ -8,6 +8,7 @@ const FoodModel = require("../Model/Food.model");
  */
 router.get("/", (req, res, next) => {
   FoodModel.find()
+    .select("_id name restaurantId description foodType price isAvailable")
     .then((response) => {
       if (response.length > 0) {
         return res.status(200).json({
@@ -44,6 +45,7 @@ router.post("/", (req, res, next) => {
     isAvailable = false,
     foodType = "",
     restaurantId = "",
+    image = "",
   } = req.body;
   const Food = new FoodModel({
     name: name,
@@ -54,6 +56,7 @@ router.post("/", (req, res, next) => {
     isAvailable: isAvailable,
     foodType: foodType,
     restaurantId: restaurantId,
+    image: image,
   });
   Food.save()
     .then((response) => {

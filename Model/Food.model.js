@@ -3,19 +3,19 @@ const mongoose = require("mongoose");
 const OfferModel = mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: false,
   },
   offerType: {
     type: String, // CASHBACK, DISCOUNT, FLAT DISCOUNT
-    required: true,
+    required: false,
   },
   offerValue: {
     type: Number,
-    required: true,
+    required: false,
   },
   offerUnit: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 
@@ -23,6 +23,10 @@ const FoodModel = mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  image: {
+    type: String,
+    required: false,
   },
   restaurantId: {
     type: mongoose.SchemaTypes.ObjectId,
