@@ -17,7 +17,7 @@ server.use("/", app);
  * INJECTING DB CONFIG
  * ONLY AFTER CONFIGURING THE DOT ENV
  */
-require("./dbConfig");
+require("./dbconfig");
 server.listen(port, "localhost", () => {
   console.log("SERVER STARTED", port);
 });
